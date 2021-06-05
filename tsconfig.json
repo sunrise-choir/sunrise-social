@@ -14,5 +14,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules", "renderer/next.config.js", "app", "dist"]
+  "include": [
+    ".eslintrc.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.json"
+  ],
+  "exclude": ["node_modules", "app", "dist"]
 }
