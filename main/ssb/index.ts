@@ -1,51 +1,15 @@
 /* eslint-env node */
 
-import { app } from 'electron'
-import { join } from 'path'
 import SecretStack from 'secret-stack'
 import caps from 'ssb-caps'
-import Config from 'ssb-config/inject'
-import Keys from 'ssb-keys'
 
-const userData = app.getPath('userData')
-const ssbDir = join(userData, 'ssb')
+import createSsbConfig from './config'
 
-const keysPath = join(ssbDir, 'secret')
-const keys = Keys.loadOrCreateSync(keysPath)
+export type SsbServer = ReturnType<typeof createSsb>
 
-const config = Config('ssb', {
-  blobs: {
-    sympathy: 2,
-  },
-  conn: {
-    autostart: false,
-  },
-  connections: {
-    incoming: {
-      channel: [{ scope: 'device', transform: 'noauth' }],
-      net: [{ port: 26950, scope: 'private', transform: 'shs' }],
-      tunnel: [{ scope: 'public', transform: 'shs' }],
-    },
-    outgoing: {
-      net: [{ transform: 'shs' }],
-      tunnel: [{ transform: 'shs' }],
-      ws: [{ transform: 'shs' }],
-    },
-  },
-  db2: {
-    automigrate: true,
-    maxCpu: 91, // %
-    maxCpuMaxPause: 120, // ms
-    maxCpuWait: 80, // ms
-  },
-  friends: {
-    hops: 2,
-  },
-  keys,
-  path: ssbDir,
-})
+export default function createSsb() {
+  const config = createSsbConfig()
 
-export default function createSsb(webContentsPromise) {
   return (
     SecretStack({ caps })
       // Core
@@ -61,7 +25,6 @@ export default function createSsb(webContentsPromise) {
       .use(require('ssb-friends')) // needs: db, replicate
       //.use(require('ssb-ebt-fork-staltz')) // needs: db2/compat, replicate, friends
       // Connections
-      .use(require('./plugins/multiserver-addons').default(webContentsPromise))
       .use(require('ssb-lan'))
       .use(require('ssb-conn')) // needs: db, friends, lan, bluetooth
       //.use(require('ssb-room-client')) // needs: conn

@@ -1,27 +1,21 @@
+import { ApolloProvider } from '@apollo/client'
 import Head from 'next/head'
-import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 
-import createClient from '../ssb'
+import createApolloClient from '../apollo'
+import CurrentAgent from '../components/CurrentAgent'
 
 function Home() {
-  useEffect(() => {
-    ;(async () => {
-      console.log('halllooooo')
-      const client = await createClient()
-      console.log('client', client)
-      console.log(client.whoami())
-    })()
-  }, [])
+  const client = useMemo(() => createApolloClient(), [])
 
   return (
     <React.Fragment>
       <Head>
         <title>Peach Social</title>
       </Head>
-      <div>
-        <img src="/images/logo.png" />
-      </div>
+      <ApolloProvider client={client}>
+        <CurrentAgent />
+      </ApolloProvider>
     </React.Fragment>
   )
 }

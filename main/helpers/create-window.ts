@@ -9,7 +9,6 @@ import Store from 'electron-store'
 export default (
   windowName: string,
   options: BrowserWindowConstructorOptions,
-  resolveWebContents: (wc: any) => void | undefined,
 ): BrowserWindow => {
   const key = 'window-state'
   const name = `window-state-${windowName}`
@@ -82,10 +81,6 @@ export default (
     },
   }
   win = new BrowserWindow(browserOptions)
-
-  /*
-  if (resolveWebContents) resolveWebContents(win.webContents)
-  */
 
   // Handle external (web) links
   win.webContents.on('will-navigate', (ev: any, url: string) => {

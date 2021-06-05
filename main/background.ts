@@ -3,8 +3,9 @@
 import { app } from 'electron'
 import serve from 'electron-serve'
 
+import createApolloServer from './apollo'
 import { createWindow } from './helpers'
-import createSsb from './ssb'
+import createSsbServer from './ssb'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
 
@@ -14,23 +15,11 @@ if (isProd) {
   app.setPath('userData', `${app.getPath('userData')}-development`)
 }
 
-let resolveWebContents: ((wc: any) => void) | undefined
-// This will be used by multiserver to communicate with the frontend
-const webContentsPromise = new Promise((resolve) => {
-  resolveWebContents = resolve
-})
-
-createSsb(webContentsPromise)
-
 app.on('ready', async () => {
-  const mainWindow = createWindow(
-    'main',
-    {
-      height: 600,
-      width: 1000,
-    },
-    resolveWebContents,
-  )
+  const mainWindow = createWindow('main', {
+    height: 600,
+    width: 1000,
+  })
 
   if (isProd) {
     await mainWindow.loadURL('app://./home.html')
@@ -44,3 +33,6 @@ app.on('ready', async () => {
 app.on('window-all-closed', () => {
   app.quit()
 })
+
+const ssb = createSsbServer()
+createApolloServer({ ssb })
