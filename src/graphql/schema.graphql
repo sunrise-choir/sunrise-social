@@ -1,0 +1,32 @@
+schema {
+  query: Query
+}
+
+"""
+Starts with @
+"""
+scalar FeedId
+
+"""
+Starts with %
+"""
+scalar MessageId
+
+"""
+Starts with &
+"""
+scalar BlobId
+
+type Agent {
+  """
+  The public key of the agent on the SSB network.
+  """
+  feedId: FeedId!
+}
+
+type Query {
+  """
+  The current agent with publishing rights on this machine. Kinda like the "current logged in user" on a sytem where you log in.
+  """
+  currentAgent: Agent!
+}

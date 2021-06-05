@@ -1,22 +1,16 @@
-import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 
-const GET_CURRENT_AGENT = gql`
-  query GetCurrentAgent {
-    currentAgent {
-      id
-    }
-  }
-`
+import { useGetCurrentAgentQuery } from '@/graphql'
 
 export default function CurrentAgent() {
-  const { loading, error, data } = useQuery(GET_CURRENT_AGENT)
+  const { loading, error, data } = useGetCurrentAgentQuery()
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error! {error.message}</div>
+  if (data == null) return
 
   const { currentAgent } = data
-  const { id } = currentAgent
+  const { feedId } = currentAgent
 
-  return <div>{id}</div>
+  return <div>{feedId}</div>
 }

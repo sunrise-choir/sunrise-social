@@ -1,6 +1,3 @@
-node_modules
-*.log
-.eslintcache
 /dist
 /src/graphql/index.tsx
 /src/graphql/schema.json

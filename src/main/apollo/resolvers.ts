@@ -6,7 +6,7 @@ const resolvers: IResolvers<any, Context> = {
   Query: {
     currentAgent: (parent, args, { ssb }, info) => {
       const { id } = ssb.whoami()
-      return { id }
+      return { feedId: id }
     },
   },
 }

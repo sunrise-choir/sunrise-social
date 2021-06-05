@@ -1,15 +1,14 @@
 {
   "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "typeRoots": ["node_modules/@types", "src/types"],
     "jsx": "react"
   },
-  "include": [
-    ".eslintrc.js",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.json"
-  ],
+  "files": ["src/types/graphql.d.ts"],
+  "include": [".*.js", "*.js", "src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
