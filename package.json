@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "name": "peach-social",
+  "description": "a Scuttlebutt social networking app",
+  "version": "0.0.0",
+  "author": "Mikey Williams",
+  "repository": "https://github.com/ahdinosaur/peach-social",
+  "license": "MPL-2.0",
+  "main": "app/background.js",
+  "scripts": {
+    "dev": "nextron",
+    "build": "nextron build",
+    "format": "prettier --write .",
+    "prepare:electron": "electron-builder install-app-deps",
+    "prepare:husky": "husky install",
+    "prepare": "yarn prepare:electron && yarn prepare:husky"
+  },
+  "dependencies": {
+    "electron-serve": "^1.1.0",
+    "electron-store": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.6.4",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "electron": "^12.0.2",
+    "electron-builder": "^22.10.5",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "next": "^10.1.3",
+    "nextron": "^6.0.6",
+    "prettier": "^2.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.2.3"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
