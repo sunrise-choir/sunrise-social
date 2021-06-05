@@ -1,20 +1,22 @@
 import {
-  screen,
   BrowserWindow,
   BrowserWindowConstructorOptions,
+  screen,
+  shell,
 } from 'electron'
 import Store from 'electron-store'
 
 export default (
   windowName: string,
   options: BrowserWindowConstructorOptions,
+  resolveWebContents: (wc: any) => void | undefined,
 ): BrowserWindow => {
   const key = 'window-state'
   const name = `window-state-${windowName}`
   const store = new Store({ name })
   const defaultSize = {
-    width: options.width,
     height: options.height,
+    width: options.width,
   }
   let state = {}
   let win
@@ -25,10 +27,10 @@ export default (
     const position = win.getPosition()
     const size = win.getSize()
     return {
+      height: size[1],
+      width: size[0],
       x: position[0],
       y: position[1],
-      width: size[0],
-      height: size[1],
     }
   }
 
@@ -74,12 +76,24 @@ export default (
     ...options,
     ...state,
     webPreferences: {
-      nodeIntegration: true,
       contextIsolation: false,
+      nodeIntegration: true,
       ...options.webPreferences,
     },
   }
   win = new BrowserWindow(browserOptions)
+
+  /*
+  if (resolveWebContents) resolveWebContents(win.webContents)
+  */
+
+  // Handle external (web) links
+  win.webContents.on('will-navigate', (ev: any, url: string) => {
+    if (url !== ev.sender.getURL()) {
+      ev.preventDefault()
+      shell.openExternal(url)
+    }
+  })
 
   win.on('close', saveState)
 
