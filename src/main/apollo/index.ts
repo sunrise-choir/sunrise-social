@@ -6,6 +6,7 @@ import * as scalars from '@/graphql/scalars'
 import typeDefs from '@/graphql/schema.graphql'
 
 import { SsbServer } from '../ssb'
+import Data from './data'
 import resolvers from './resolvers'
 
 console.log('resolvers', resolvers)
@@ -15,12 +16,13 @@ interface ApolloServerOptions {
 }
 
 export interface Context {
-  ssb: SsbServer
+  data: Data
 }
 
 export default function createApolloServer(options: ApolloServerOptions) {
   const { ssb } = options
 
+  const data = Data({ ssb })
   const schema = makeExecutableSchema({
     resolvers: {
       ...scalars,
@@ -28,7 +30,7 @@ export default function createApolloServer(options: ApolloServerOptions) {
     },
     typeDefs,
   })
-  const context = () => ({ ssb })
+  const context = () => ({ data })
   const link = createSchemaLink({
     context,
     schema,

@@ -4,7 +4,7 @@ import { Context } from './'
 
 const resolvers: IResolvers<any, Context> = {
   Query: {
-    currentAgent: (parent, args, { ssb }, info) => {
+    currentAgent: (parent, args, { data: { ssb } }, info) => {
       const { id } = ssb.whoami()
       return { feedId: id }
     },
