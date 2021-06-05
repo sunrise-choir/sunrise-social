@@ -3,10 +3,16 @@ import { ipcMain } from 'electron'
 import { createIpcExecutor, createSchemaLink } from 'graphql-transport-electron'
 
 import { SsbServer } from '../ssb'
-import * as resolvers from './resolvers'
+import resolvers from './resolvers'
 import typeDefs from './typeDefs'
 
+console.log('resolvers', resolvers)
+
 interface ApolloServerOptions {
+  ssb: SsbServer
+}
+
+export interface Context {
   ssb: SsbServer
 }
 
@@ -17,7 +23,7 @@ export default function createApolloServer(options: ApolloServerOptions) {
     resolvers,
     typeDefs,
   })
-  const context = { ssb }
+  const context = () => ({ ssb })
   const link = createSchemaLink({
     context,
     schema,

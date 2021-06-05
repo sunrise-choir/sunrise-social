@@ -1,18 +1,7 @@
 {
+  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "jsx": "react"
   },
   "include": [
     ".eslintrc.js",
@@ -22,5 +11,5 @@
     "**/*.jsx",
     "**/*.json"
   ],
-  "exclude": ["node_modules", "app", "dist"]
+  "exclude": ["node_modules", "dist"]
 }

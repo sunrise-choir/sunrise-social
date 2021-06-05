@@ -3,15 +3,20 @@ import React from 'react'
 
 const GET_CURRENT_AGENT = gql`
   query GetCurrentAgent {
-    currentAgent
+    currentAgent {
+      id
+    }
   }
 `
 
 export default function CurrentAgent() {
   const { loading, error, data } = useQuery(GET_CURRENT_AGENT)
 
-  if (loading) return 'Loading...'
-  if (error) return `Error! ${error.message}`
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error! {error.message}</div>
 
-  return <div>{data}</div>
+  const { currentAgent } = data
+  const { id } = currentAgent
+
+  return <div>{id}</div>
 }

@@ -1,12 +1,17 @@
-/* eslint-env node */
-
 module.exports = {
+  env: {
+    browser: true,
+    node: true,
+  },
   extends: [
-    'eslint:recommended',
+    // 'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
+  globals: {
+    __static: true,
+  },
   overrides: [
     {
       files: '*.(ts,tsx)',
