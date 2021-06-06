@@ -7,6 +7,11 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
+    config:
+      scalars:
+        FeedId: string
+        MessageId: string
+        BlobId: string
   src/graphql/schema.json:
     plugins:
       - 'introspection'

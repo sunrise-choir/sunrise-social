@@ -5,8 +5,8 @@ import { createIpcExecutor, createSchemaLink } from 'graphql-transport-electron'
 import * as scalars from '@/graphql/scalars'
 import typeDefs from '@/graphql/schema.graphql'
 
+import Data from '../data'
 import { SsbServer } from '../ssb'
-import Data from './data'
 import createApolloDevServer from './dev'
 import resolvers from './resolvers'
 

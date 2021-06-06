@@ -37,7 +37,6 @@ export default function createSsb() {
       .use(require('ssb-db2/full-mentions')) // needs: db2
       // Blobs
       .use(require('ssb-blobs'))
-      .use(require('ssb-serve-blobs')) // needs: blobs
       // Customizations
       .call(null, config)
   )

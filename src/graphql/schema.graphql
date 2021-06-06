@@ -17,11 +17,29 @@ Starts with &
 """
 scalar BlobId
 
+"""
+Url
+"""
+scalar Url
+
 type Agent {
   """
   The public key of the agent on the SSB network.
   """
   feedId: FeedId!
+
+  profile: Profile!
+}
+
+type Profile {
+  name: String
+  description: String
+  image: Blob
+}
+
+type Blob {
+  id: BlobId!
+  url: Url!
 }
 
 type Query {
@@ -29,4 +47,9 @@ type Query {
   The current agent with publishing rights on this machine. Kinda like the "current logged in user" on a sytem where you log in.
   """
   currentAgent: Agent!
+
+  """
+  Find an author by their public key string.
+  """
+  agentByFeedId(feedId: FeedId!): Agent
 }

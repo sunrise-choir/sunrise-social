@@ -2,23 +2,24 @@
 
 next-gen Scuttlebutt social networking app
 
-## stack
+## Why?
 
-- typescript
-- prettier / eslint
-- ssb server
-  - [ssb-db2](https://github.com/ssb-ngi-pointer/ssb-db2)
-  -
-- ssb client
-  - [electron-ssb-client](https://github.com/staltz/electron-ssb-client)
-- nextron
-  - react
-  - webpack
+- Need for a new Scuttlebutt flagship app
+
+## How?
+
+- Electron
+- Webpack
+- TypeScript
+- Prettier & ESLint
+- ssbjs server
+- graphql
 - chakra-ui
 - xstate
 
 ## opinions
 
+- Stack should be modern yet not bleeding-edge
 - try to follow Mastodon specs if possible
   - microformats
   - activitypub
@@ -31,3 +32,10 @@ cd peach-social
 yarn
 yarn dev
 ```
+
+### TODO
+
+- move from electron-webpack to just electron and webpack
+- security
+  - electron: https://www.electronjs.org/docs/tutorial/security
+  - electron-webpack: https://gist.github.com/earksiinni/053470a04defc6d7dfaacd5e5a073b15

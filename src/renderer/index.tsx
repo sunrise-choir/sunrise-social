@@ -1,9 +1,9 @@
-import { ApolloProvider } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { render } from 'react-dom'
 
 import createApolloClient from './apollo'
-import CurrentAgent from './components/CurrentAgent'
+import CurrentAgentProfile from './components/CurrentAgentProfile'
+import Provider from './provider'
 
 function App() {
   const client = useMemo(() => createApolloClient(), [])
@@ -15,12 +15,10 @@ function App() {
   
   */
 
-  console.log('client', client)
-
   return (
-    <ApolloProvider client={client}>
-      <CurrentAgent />
-    </ApolloProvider>
+    <Provider client={client}>
+      <CurrentAgentProfile />
+    </Provider>
   )
 }
 

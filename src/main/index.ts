@@ -26,7 +26,7 @@ function createMainWindow() {
   } else {
     window.loadURL(
       formatUrl({
-        pathname: joinPath(__dirname, 'index.html'),
+        pathname: joinPath(__dirname, '../renderer/index.html'),
         protocol: 'file',
         slashes: true,
       }),

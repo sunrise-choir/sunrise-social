@@ -4,9 +4,13 @@ import { Context } from './'
 
 const resolvers: IResolvers<any, Context> = {
   Query: {
-    currentAgent: (parent, args, { data: { ssb } }, info) => {
-      const { id } = ssb.whoami()
-      return { feedId: id }
+    currentAgent: async (parent, args, { data: { ssb } }, info) => {
+      const feedId = ssb.getCurrentFeedId()
+      const profile = await ssb.getProfile(feedId)
+      return {
+        feedId,
+        profile,
+      }
     },
   },
 }

@@ -1,5 +1,5 @@
-query GetCurrentAgent {
-  currentAgent {
+query GetAgentByFeedId($feedId: FeedId!) {
+  agent: agentByFeedId(feedId: $feedId) {
     feedId
     profile {
       name
