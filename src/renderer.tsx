@@ -2,8 +2,8 @@ import { ApolloProvider } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { render } from 'react-dom'
 
-import createApolloClient from './apollo'
-import CurrentAgent from './components/CurrentAgent'
+import createApolloClient from '@/apollo/client'
+import CurrentAgent from '@/components/CurrentAgent'
 
 function App() {
   const client = useMemo(() => createApolloClient(), [])
@@ -24,4 +24,6 @@ function App() {
   )
 }
 
-render(<App />, document.getElementById('app'))
+document.addEventListener('DOMContentLoaded', () => {
+  render(<App />, document.getElementById('app'))
+})

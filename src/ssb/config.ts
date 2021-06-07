@@ -5,6 +5,7 @@ import Keys from 'ssb-keys'
 
 export default function createSsbConfig() {
   const userData = app.getPath('userData')
+  console.log('userData', userData)
   const ssbDir = join(userData, 'ssb')
 
   const keysPath = join(ssbDir, 'secret')

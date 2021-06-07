@@ -1,14 +1,35 @@
 {
-  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "esnext"],
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["node_modules/@types", "src/types"],
-    "jsx": "react"
+    "typeRoots": ["node_modules/@types", "src/types"]
   },
   "files": ["src/types/graphql.d.ts"],
-  "include": [".*.js", "*.js", "src/**/*"],
+  "include": [".*.js", "*.js", "webpack/*.js", "src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
