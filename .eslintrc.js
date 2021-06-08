@@ -33,7 +33,6 @@ module.exports = {
   },
   /* eslint-enable sort-keys-fix/sort-keys-fix */
   settings: {
-    linkComponents: [{ linkAttribute: 'href', name: 'Link' }],
     react: {
       version: 'detect',
     },

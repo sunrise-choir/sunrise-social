@@ -1,2 +1,2 @@
-declare module 'ssb-config'
-declare module 'ssb-keys/inject'
+declare module 'ssb-config/inject'
+declare module 'ssb-keys'

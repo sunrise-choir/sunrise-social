@@ -25,11 +25,11 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "graphql": ["node_modules/graphql"]
     },
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "typeRoots": ["src/types", "node_modules/@types"]
   },
-  "files": ["src/types/graphql.d.ts"],
   "include": [".*.js", "*.js", "webpack/*.js", "src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -21,6 +21,7 @@
     "build:graphql-codegen": "graphql-codegen --config graphql-codegen.yml",
     "build": "yarn build:graphql-codegen && concurrently yarn:build:webpack:*",
     "start": "electron .",
+    "types": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint --cache .",
     "format:prettier": "prettier --write .",
     "format:eslint": "eslint --fix .",
@@ -32,7 +33,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",
-    "@hot-loader/react-dom": "^17.0.1",
     "apollo-server": "^2.25.0",
     "babel-loader": "^8.2.2",
     "chloride": "^2.4.1",
@@ -42,7 +42,6 @@
     "graphql-transport-electron": "^2.0.2",
     "pull-stream": "^3.6.14",
     "secret-stack": "^6.4.0",
-    "source-map-support": "^0.5.16",
     "ssb-blobs": "^2.0.1",
     "ssb-caps": "^1.1.0",
     "ssb-config": "^3.4.5",
@@ -63,19 +62,19 @@
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
+    "@graphql-codegen/add": "^2.0.2",
     "@graphql-codegen/cli": "1.21.5",
     "@graphql-codegen/introspection": "1.18.2",
     "@graphql-codegen/typescript": "1.22.1",
+    "@graphql-codegen/typescript-graphql-files-modules": "^1.18.1",
     "@graphql-codegen/typescript-operations": "1.18.0",
     "@graphql-codegen/typescript-react-apollo": "2.2.5",
+    "@graphql-codegen/typescript-resolvers": "^1.19.2",
     "@types/node": "^14.6.4",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/parser": "^4.26.0",
     "@vercel/webpack-asset-relocator-loader": "^1.4.1",
-    "builtin-modules": "^3.2.0",
-    "chokidar-cli": "^2.1.0",
-    "cross-env": "^7.0.3",
     "electron": "^13.0.1",
     "electron-builder": "^22.10.5",
     "electronmon": "^2.0.1",
@@ -87,7 +86,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-sort-keys-fix": "^1.1.1",
-    "graphql-tag": "^2.12.4",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.0",
@@ -96,24 +94,5 @@
     "typescript": "^4.3.2",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0"
-  },
-  "resolutions": {
-    "**/react": "17.0.2",
-    "**/react-dom": "17.0.2"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "**/*.{js,ts,tsx}": [
-      "eslint --cache --fix",
-      "prettier --write"
-    ]
-  },
-  "electronWebpack": {
-    "main": {
-      "webpackConfig": "webpack.main.js"
-    },
-    "renderer": {
-      "webpackConfig": "webpack.renderer.js"
-    }
   }
 }

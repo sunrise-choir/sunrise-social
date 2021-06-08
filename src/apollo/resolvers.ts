@@ -1,10 +1,8 @@
-import { IResolvers } from 'apollo-server'
+import { Resolvers } from '@/graphql/Resolvers'
 
-import { Context } from './'
-
-const resolvers: IResolvers<any, Context> = {
+const resolvers: Resolvers = {
   Query: {
-    currentAgent: (parent, args, { data: { ssb } }, info) => {
+    currentAgent: (_parent, _args, { data: { ssb } }, _info) => {
       const { id } = ssb.whoami()
       return { feedId: id }
     },

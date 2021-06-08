@@ -9,12 +9,12 @@ import { SsbServer } from '../ssb'
 import Data from './data'
 import resolvers from './resolvers'
 
-interface ApolloServerOptions {
-  ssb: SsbServer
-}
-
 export interface Context {
   data: Data
+}
+
+interface ApolloServerOptions {
+  ssb: SsbServer
 }
 
 export default function createApolloServer(options: ApolloServerOptions) {

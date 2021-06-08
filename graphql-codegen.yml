@@ -1,5 +1,5 @@
 overwrite: true
-schema: './src/graphql/schema.graphql'
+schema: 'src/graphql/schema.graphql'
 documents: 'src/graphql/**/*.graphql'
 generates:
   src/graphql/index.tsx:
@@ -7,6 +7,14 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
+  src/graphql/Resolvers.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
+    config:
+      contextType: '@/apollo#Context'
+  src/types/graphql-queries.d.ts:
+    - 'typescript-graphql-files-modules'
   src/graphql/schema.json:
     plugins:
       - 'introspection'

@@ -1,7 +1,7 @@
-import { InMemoryLRUCache } from 'apollo-server-caching'
-
-import { SsbServer } from '@/main/ssb'
+// import { InMemoryLRUCache } from 'apollo-server-caching'
 // import { ApolloError } from 'apollo-server-errors'
+
+import { SsbServer } from '@/ssb'
 
 export interface SsbDataConfig {
   ssb: SsbServer
@@ -10,7 +10,7 @@ export interface SsbDataConfig {
 export function SsbData(config: SsbDataConfig) {
   const { ssb } = config
 
-  const messageCache = new InMemoryLRUCache()
+  // const messageCache = new InMemoryLRUCache()
 
   return {
     whoami: () => ssb.whoami(),

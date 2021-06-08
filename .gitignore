@@ -3,4 +3,6 @@ node_modules
 .eslintcache
 /dist
 /src/graphql/index.tsx
+/src/graphql/Resolvers.tsx
 /src/graphql/schema.json
+/src/types/graphql-queries.d.ts

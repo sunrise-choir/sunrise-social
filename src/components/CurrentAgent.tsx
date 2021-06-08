@@ -7,7 +7,7 @@ export default function CurrentAgent() {
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error! {error.message}</div>
-  if (data == null) return
+  if (data == null) return null
 
   const { currentAgent } = data
   const { feedId } = currentAgent
