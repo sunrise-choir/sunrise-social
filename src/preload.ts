@@ -1,22 +1,22 @@
 import { contextBridge, IpcRenderer, ipcRenderer } from 'electron'
 
 // for graphql-transport-electron
-
-interface ExposedIpcRenderer {
+interface GraphqlIpcRenderer {
   on: IpcRenderer['on']
   removeListener: IpcRenderer['removeListener']
   send: IpcRenderer['send']
 }
-const exposedIpcRenderer: ExposedIpcRenderer = {
-  on(channel, listener) {
-    return ipcRenderer.on(channel, listener)
+const graphqlChannel = 'graphql'
+const graphqlIpc: GraphqlIpcRenderer = {
+  on(_channel, listener) {
+    return ipcRenderer.on(graphqlChannel, listener)
   },
-  removeListener(channel, listener) {
-    return ipcRenderer.removeListener(channel, listener)
+  removeListener(_channel, listener) {
+    return ipcRenderer.removeListener(graphqlChannel, listener)
   },
-  send(channel, ...args) {
-    return ipcRenderer.send(channel, ...args)
+  send(_channel, ...args) {
+    return ipcRenderer.send(graphqlChannel, ...args)
   },
 }
 
-contextBridge.exposeInMainWorld('ipcRenderer', exposedIpcRenderer)
+contextBridge.exposeInMainWorld('graphqlIpc', graphqlIpc)
