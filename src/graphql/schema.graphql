@@ -2,6 +2,24 @@ schema {
   query: Query
 }
 
+type Query {
+  """
+  The current peer with publishing rights on this machine.
+  Kinda like the "current logged in user" on a sytem where you log in.
+  """
+  currentPeer: Peer!
+
+  """
+  Find a peer by their public key string.
+  """
+  peerByFeedId(feedId: FeedId!): Peer
+
+  """
+  Get currently connected peers.
+  """
+  peerConnections: [PeerConnection!]!
+}
+
 """
 Starts with @
 """
@@ -17,16 +35,40 @@ Starts with &
 """
 scalar BlobId
 
-type Agent {
+type Peer {
   """
-  The public key of the agent on the SSB network.
+  The public key of the peer on the SSB network.
   """
   feedId: FeedId!
+
+  profile: Profile
 }
 
-type Query {
+type Profile {
+  name: String
+  description: String
+  image: BlobId
+}
+
+enum PeerConnectionState {
+  CONNECTING
+  CONNECTED
+  DISCONNECTING
+}
+
+type PeerConnection {
+  peer: Peer!
+  address: String!
+
   """
-  The current agent with publishing rights on this machine. Kinda like the "current logged in user" on a sytem where you log in.
+  What is the status of the connection
   """
-  currentAgent: Agent!
+  state: PeerConnectionState
+
+  """
+  What type of peer this is.
+
+  It can be any string, but often is either 'lan', 'bt', 'pub', 'room', 'room-endpoint', 'dht'
+  """
+  type: String
 }

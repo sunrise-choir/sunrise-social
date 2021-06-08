@@ -1,0 +1,10 @@
+query GetPeerConnections {
+  peerConnections {
+    peer {
+      feedId
+    }
+    address
+    state
+    type
+  }
+}

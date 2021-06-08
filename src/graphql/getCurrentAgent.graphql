@@ -1,5 +1,0 @@
-query GetCurrentAgent {
-  currentAgent {
-    feedId
-  }
-}

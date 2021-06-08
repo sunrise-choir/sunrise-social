@@ -2,11 +2,11 @@ import { makeExecutableSchema } from 'apollo-server'
 import { ipcMain } from 'electron'
 import { createIpcExecutor, createSchemaLink } from 'graphql-transport-electron'
 
+import Data from '@/data'
 import * as scalars from '@/graphql/scalars'
 import typeDefs from '@/graphql/schema.graphql'
+import { SsbServer } from '@/ssb'
 
-import { SsbServer } from '../ssb'
-import Data from './data'
 import resolvers from './resolvers'
 
 export interface Context {

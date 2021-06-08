@@ -15,6 +15,14 @@ export default function createSsbConfig() {
     blobs: {
       sympathy: 2,
     },
+    connections: {
+      incoming: {
+        net: [{ port: 55698, scope: ['public', 'local'], transform: 'shs' }],
+      },
+      outgoing: {
+        net: [{ transform: 'shs' }],
+      },
+    },
     /*
     conn: {
       autostart: false,

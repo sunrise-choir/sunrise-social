@@ -7,6 +7,12 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
+    config:
+      strictScalars: true
+      scalars:
+        FeedId: string
+        MessageId: string
+        BlobId: string
   src/graphql/Resolvers.tsx:
     plugins:
       - 'typescript'

@@ -3,7 +3,8 @@ import React, { useMemo } from 'react'
 import { render } from 'react-dom'
 
 import createApolloClient from '@/apollo/client'
-import CurrentAgent from '@/components/CurrentAgent'
+import CurrentPeer from '@/components/CurrentPeer'
+import PeerConnections from '@/components/PeerConnections'
 
 function App() {
   const client = useMemo(() => createApolloClient(), [])
@@ -19,7 +20,8 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <CurrentAgent />
+      <CurrentPeer />
+      <PeerConnections />
     </ApolloProvider>
   )
 }

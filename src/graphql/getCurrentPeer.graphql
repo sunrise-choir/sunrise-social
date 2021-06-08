@@ -1,0 +1,5 @@
+query GetCurrentPeer {
+  currentPeer {
+    feedId
+  }
+}
