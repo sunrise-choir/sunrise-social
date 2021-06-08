@@ -1,4 +1,8 @@
 import { app, BrowserWindow, shell } from 'electron'
+import installExtension, {
+  APOLLO_DEVELOPER_TOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer'
 import { join as joinPath } from 'path'
 import { format as formatUrl } from 'url'
 
@@ -7,6 +11,10 @@ import indexHtml from './index.html'
 import createSsbServer from './ssb'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
+if (isDevelopment) {
+  app.setPath('userData', `${app.getPath('userData')}-development`)
+}
 
 function createServer() {
   const ssb = createSsbServer()
@@ -22,10 +30,6 @@ function createMainWindow() {
     },
   })
 
-  if (isDevelopment) {
-    mainWindow.webContents.openDevTools()
-  }
-
   mainWindow.loadURL(
     formatUrl({
       pathname: joinPath(__dirname, indexHtml),
@@ -33,17 +37,6 @@ function createMainWindow() {
       slashes: true,
     }),
   )
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  mainWindow.webContents.on('devtools-opened', () => {
-    mainWindow.focus()
-    setImmediate(() => {
-      mainWindow.focus()
-    })
-  })
 
   // handle external (web) links
   // TODO: https://www.electronjs.org/docs/tutorial/security#14-do-not-use-openexternal-with-untrusted-content
@@ -67,7 +60,24 @@ function createMainWindow() {
 }
 
 // create main BrowserWindow when electron is ready
-app.on('ready', createMainWindow)
+app.whenReady().then(createMainWindow)
+
+if (isDevelopment) {
+  app
+    .whenReady()
+    .then(() => {
+      return installExtension([REACT_DEVELOPER_TOOLS, APOLLO_DEVELOPER_TOOLS], {
+        forceDownload: false,
+        loadExtensionOptions: { allowFileAccess: true },
+      })
+    })
+    .then(() => {
+      console.log('installed dev extensions')
+    })
+    .catch((error) => {
+      console.error('error installing extensions:', error)
+    })
+}
 
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
@@ -81,14 +91,4 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createMainWindow()
   }
-})
-
-app.on('web-contents-created', (_webContentsEvent, contents) => {
-  contents.on('will-navigate', (event, navigationUrl) => {
-    const parsedUrl = new URL(navigationUrl)
-
-    if (parsedUrl.origin !== 'https://example.com') {
-      event.preventDefault()
-    }
-  })
 })

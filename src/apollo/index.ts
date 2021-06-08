@@ -7,10 +7,7 @@ import typeDefs from '@/graphql/schema.graphql'
 
 import { SsbServer } from '../ssb'
 import Data from './data'
-import createApolloDevServer from './dev'
 import resolvers from './resolvers'
-
-const isDevelopment = process.env.NODE_ENV !== 'production'
 
 interface ApolloServerOptions {
   ssb: SsbServer
@@ -32,10 +29,6 @@ export default function createApolloServer(options: ApolloServerOptions) {
     typeDefs,
   })
   const context = { data }
-
-  if (isDevelopment) {
-    createApolloDevServer({ context, schema })
-  }
 
   const link = createSchemaLink({
     context: () => context,
