@@ -3,11 +3,11 @@ import installExtension, {
   APOLLO_DEVELOPER_TOOLS,
   REACT_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer'
-import serve from 'electron-serve'
 import { join as joinPath } from 'path'
 import { format as formatUrl } from 'url'
 
 import createApolloServer from './apollo'
+import indexHtml from './index.html'
 import createSsbServer from './ssb'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -23,16 +23,20 @@ function createServer() {
 
 createServer()
 
-const loadUrl = serve({ directory: __dirname })
-
-async function createMainWindow() {
+function createMainWindow() {
   const mainWindow = new BrowserWindow({
     webPreferences: {
       preload: joinPath(__dirname, 'preload.js'),
     },
   })
 
-  await loadUrl(mainWindow)
+  mainWindow.loadURL(
+    formatUrl({
+      pathname: joinPath(__dirname, indexHtml),
+      protocol: 'file',
+      slashes: true,
+    }),
+  )
 
   // handle external (web) links
   // TODO: https://www.electronjs.org/docs/tutorial/security#14-do-not-use-openexternal-with-untrusted-content

@@ -3189,17 +3189,7 @@ chloride@^2.2.7, chloride@^2.2.8, chloride@^2.2.9, chloride@^2.4.1, chloride@~2.
   optionalDependencies:
     sodium-native "^3.0.0"
 
-chokidar-cli@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/chokidar-cli/-/chokidar-cli-2.1.0.tgz#2491df133bd62cd145227b1746fbd94f2733e1bc"
-  integrity sha512-6n21AVpW6ywuEPoxJcLXMA2p4T+SLjWsXKny/9yTWFz0kKxESI3eUylpeV97LylING/27T/RVTY0f2/0QaWq9Q==
-  dependencies:
-    chokidar "^3.2.3"
-    lodash.debounce "^4.0.8"
-    lodash.throttle "^4.1.1"
-    yargs "^13.3.0"
-
-chokidar@^3.2.3, chokidar@^3.5.1:
+chokidar@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
   integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
@@ -3966,11 +3956,6 @@ electron-publish@22.10.5:
     fs-extra "^9.1.0"
     lazy-val "^1.0.4"
     mime "^2.5.0"
-
-electron-serve@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/electron-serve/-/electron-serve-1.1.0.tgz#507f56c8512c501880d3a9bec792fa92512af378"
-  integrity sha512-tQJBCbXKoKCfkBC143QCqnEtT1s8dNE2V+b/82NF6lxnGO/2Q3a3GSLHtKl3iEDQgdzTf9pH7p418xq2rXbz1Q==
 
 electron-to-chromium@^1.3.723:
   version "1.3.749"
