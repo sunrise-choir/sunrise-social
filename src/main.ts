@@ -18,10 +18,12 @@ if (isDevelopment) {
 
 function createServer() {
   const ssb = createSsbServer()
-  createApolloServer({ ssb })
+  const apollo = createApolloServer({ ssb })
+  return { apollo, ssb }
 }
 
-createServer()
+// @ts-ignore
+const server = createServer()
 
 function createMainWindow() {
   const mainWindow = new BrowserWindow({

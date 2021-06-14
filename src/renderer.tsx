@@ -1,31 +1,58 @@
 import { ApolloProvider } from '@apollo/client'
-import React, { useMemo } from 'react'
+import { ChakraProvider, CSSReset } from '@chakra-ui/react'
+import Jabber from 'jabber'
+import React, { ReactNode, useMemo } from 'react'
 import { render } from 'react-dom'
 
 import createApolloClient from '@/apollo/client'
-import CurrentPeer from '@/components/CurrentPeer'
-import PeerConnections from '@/components/PeerConnections'
+import AppLayout from '@/components/AppLayout'
+// import CurrentPeer from '@/components/CurrentPeer'
+// import PeerConnections from '@/components/PeerConnections'
+import PageRouter from '@/components/PageRouter'
+import { RouterContextProvider } from '@/context/router'
+import { routes, initialRoute } from '@/pages'
+import theme from '@/theme'
+
+document.addEventListener('DOMContentLoaded', () => {
+  render(<App />, document.getElementById('app'))
+})
 
 function App() {
-  const client = useMemo(() => createApolloClient(), [])
-
   /*
   <Head>
     <title>Peach Social</title>
   </Head>
   
+        <CurrentPeer />
+        <PeerConnections />
   */
 
-  console.log('client', client)
-
   return (
-    <ApolloProvider client={client}>
-      <CurrentPeer />
-      <PeerConnections />
-    </ApolloProvider>
+    <Provider>
+      <AppLayout>
+        <PageRouter />
+      </AppLayout>
+    </Provider>
   )
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  render(<App />, document.getElementById('app'))
-})
+interface ProviderProps {
+  children: ReactNode
+}
+
+function Provider(props: ProviderProps) {
+  const { children } = props
+
+  const client = useMemo(() => createApolloClient(), [])
+
+  return (
+    <ApolloProvider client={client}>
+      <ChakraProvider theme={theme}>
+        <CSSReset />
+        <RouterContextProvider routes={routes} initialRoute={initialRoute}>
+          {children}
+        </RouterContextProvider>
+      </ChakraProvider>
+    </ApolloProvider>
+  )
+}
