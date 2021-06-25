@@ -1,7 +1,7 @@
 // import { InMemoryLRUCache } from 'apollo-server-caching'
 // import { ApolloError } from 'apollo-server-errors'
 
-import i from 'pull-stream-to-async-iterator'
+import pull from 'pull-stream'
 import {
   Address as SsbConnHubAddress,
   ConnectionData as SsbConnHubConnectionData,
@@ -33,9 +33,16 @@ export function SsbData(config: SsbDataConfig) {
       return feedId
     },
     async getPeerConnections(): Promise<Array<PeerConnection>> {
-      for await (const peerConnection of this.onPeerConnections()) {
-        return peerConnection
-      }
+      return new Promise((resolve, reject) =>
+        pull(
+          this.onPeerConnections(),
+          pull.take(1),
+          pull.collect((err: Error, data: [Array<PeerConnection>]) => {
+            if (err) reject(err)
+            else resolve(data[0])
+          }),
+        ),
+      )
     },
     async getProfileByFeedId(feedId: FeedId): Promise<Profile> {
       await p(ssb.db.onDrain)('aboutSelf')
@@ -54,27 +61,25 @@ export function SsbData(config: SsbDataConfig) {
           return PeerConnectionState.Disconnecting
       }
     },
-    async *onPeerConnections(): AsyncIterator<Array<PeerConnection>> {
+    onPeerConnections(): any {
       type SsbConnPeer = [SsbConnHubAddress, SsbConnHubConnectionData]
-      const ssbConnPeersIter: AsyncIterator<Array<SsbConnPeer>> = i(
+      return pull(
         ssb.conn.peers(),
+        pull.map((ssbConnPeers: Array<SsbConnPeer>) => {
+          return ssbConnPeers.map((ssbConnPeer: SsbConnPeer) => {
+            const [address, connection] = ssbConnPeer
+            const { key: feedId, state, type, inferredType } = connection
+            return {
+              address,
+              peer: {
+                feedId: feedId as FeedId,
+              },
+              state: this.normalizePeerConnectionState(state),
+              type: type || inferredType,
+            }
+          })
+        }),
       )
-      for await (const ssbConnPeers of ssbConnPeersIter) {
-        yield ssbConnPeers.map((ssbConnPeer: SsbConnPeer) => {
-          console.log('peer', ssbConnPeer)
-          const [address, connection] = ssbConnPeer
-          console.log('ssb connection', connection)
-          const { key: feedId, state, type, inferredType } = connection
-          return {
-            address,
-            peer: {
-              feedId: feedId as FeedId,
-            },
-            state: this.normalizePeerConnectionState(state),
-            type: type || inferredType,
-          }
-        })
-      }
     },
   }
 }
