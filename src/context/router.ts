@@ -4,54 +4,54 @@ import { ComponentType, useCallback, useMemo } from 'react'
 
 import useLocalStorageState from '@/hooks/useLocalStorageState'
 
-export type Key = string
+export type RouteId = string
 
 export interface Route {
-  key: Key
+  id: RouteId
   Component: ComponentType
 }
 
 export type Params = Record<string, string>
 
 export interface State {
-  key: Key
+  routeId: RouteId
   params: Params
 }
 
 export interface RouterContext {
   state: State
-  navigate: (nextKey: Key, nextParams?: Params) => void
+  navigate: (nextRouteId: RouteId, nextParams?: Params) => void
   route: Route | undefined
 }
 
 export interface RouterContextProps {
-  initialKey: Key
+  initialRouteId: RouteId
   routes: Array<Route>
 }
 
 const ROUTER_STATE_STORAGE_KEY = '@sunrise-social/router/state'
 
 function useRouter(options: RouterContextProps): RouterContext {
-  const { initialKey, routes } = options
+  const { initialRouteId, routes } = options
 
   const [state, setState] = useLocalStorageState<State>({
     initialState: {
-      key: initialKey,
       params: {},
+      routeId: initialRouteId,
     },
     key: ROUTER_STATE_STORAGE_KEY,
   })
 
   const route: Route | undefined = useMemo(() => {
-    const { key } = state
-    return find(routes, ['key', key])
+    const { routeId } = state
+    return find(routes, ['id', routeId])
   }, [state, routes])
 
   const navigate = useCallback(
-    (nextKey, nextParams = {}) => {
+    (nextRouteId, nextParams = {}) => {
       setState({
-        key: nextKey,
         params: nextParams,
+        routeId: nextRouteId,
       })
     },
     [setState],
