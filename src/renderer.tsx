@@ -1,6 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
-import Jabber from 'jabber'
 import React, { ReactNode, useMemo } from 'react'
 import { render } from 'react-dom'
 
@@ -10,7 +9,7 @@ import AppLayout from '@/components/AppLayout'
 // import PeerConnections from '@/components/PeerConnections'
 import PageRouter from '@/components/PageRouter'
 import { RouterContextProvider } from '@/context/router'
-import { routes, initialRoute } from '@/pages'
+import { initialRoute, routes } from '@/pages'
 import theme from '@/theme'
 
 document.addEventListener('DOMContentLoaded', () => {
