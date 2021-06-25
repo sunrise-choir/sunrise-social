@@ -1,8 +1,9 @@
 import React from 'react'
 
+import PeerProfile from '@/components/PeerProfile'
 import { useGetCurrentPeerQuery } from '@/graphql'
 
-export default function CurrentPeer() {
+export default function CurrentPeerProfile() {
   const { loading, error, data } = useGetCurrentPeerQuery()
 
   if (loading) return <div>Loading...</div>
@@ -12,5 +13,5 @@ export default function CurrentPeer() {
   const { currentPeer } = data
   const { feedId } = currentPeer
 
-  return <div>{feedId}</div>
+  return <PeerProfile feedId={feedId} />
 }

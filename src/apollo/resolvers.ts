@@ -12,6 +12,10 @@ const resolvers: Resolvers = {
       const feedId = ssb.getCurrentFeedId()
       return { feedId }
     },
+    peerByFeedId(_parent, args, _context, _info) {
+      const { feedId } = args
+      return { feedId }
+    },
     peerConnections(_parent, _args, { data: { ssb } }, _info) {
       return ssb.getPeerConnections()
     },

@@ -1,7 +1,8 @@
 import { Box, VStack } from '@chakra-ui/react'
-import React from 'react'
+import React, { useCallback } from 'react'
 
-import { PeerConnection, useGetPeerConnectionsQuery } from '@/graphql'
+import { useRouterContext } from '@/context/router'
+import { Peer, PeerConnection, useGetPeerConnectionsQuery } from '@/graphql'
 
 export default function PeerConnectionsList() {
   const { loading, error, data } = useGetPeerConnectionsQuery({
@@ -31,15 +32,24 @@ interface PeerConnectionProps {
 }
 function PeerConnectionItem(props: PeerConnectionProps) {
   const { peerConnection } = props
+
   const {
     peer: { feedId },
     address,
     state,
     type,
   } = peerConnection
+
+  const { navigate } = useRouterContext()
+
+  const navigateToProfile = useCallback(() => {
+    const urlSafeFeedId = feedId.replace(/\+/g, '-').replace(/\//g, '_')
+    navigate(`/profile/${urlSafeFeedId}`)
+  }, [navigate, feedId])
+
   return (
     <Box boxShadow="outline">
-      <Box>{feedId}</Box>
+      <Box onClick={navigateToProfile}>{feedId}</Box>
       <Box>{address}</Box>
       <Box>{state}</Box>
       <Box>{type}</Box>

@@ -1,0 +1,10 @@
+query GetPeerProfile($feedId: FeedId!) {
+  peer: peerByFeedId(feedId: $feedId) {
+    feedId
+    profile {
+      name
+      description
+      image
+    }
+  }
+}

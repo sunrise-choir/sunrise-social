@@ -1,7 +1,8 @@
 import Connections from './Connections'
 import Mentions from './Mentions'
+import MyProfile from './MyProfile'
+import OtherProfile from './OtherProfile'
 import Private from './Private'
-import Profile from './Profile'
 import Public from './Public'
 
 export const initialRoute = '/public'
@@ -16,16 +17,12 @@ export const routes = [
     path: '/private',
   },
   {
-    Component: Profile,
+    Component: MyProfile,
     path: '/profile',
   },
   {
-    Component: Profile,
-    path: '/profile',
-  },
-  {
-    Component: Profile,
-    path: '/profile',
+    Component: OtherProfile,
+    path: '/profile/:feedId',
   },
   {
     Component: Connections,
