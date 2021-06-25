@@ -27,6 +27,12 @@
     "prepare:husky": "husky install",
     "prepare": "yarn prepare:electron && yarn prepare:husky"
   },
+  "electronmon": {
+    "patterns": [
+      "!src/**",
+      "!webpack/**"
+    ]
+  },
   "dependencies": {
     "@apollo/client": "^3.3.19",
     "@chakra-ui/react": "^1.6.3",
