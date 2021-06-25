@@ -21,17 +21,17 @@ type Query {
 }
 
 """
-Starts with @
+Starts with @ and is URI-safe Base64 encoded.
 """
 scalar FeedId
 
 """
-Starts with %
+Starts with % and is URI-safe Base64 encoded.
 """
 scalar MessageId
 
 """
-Starts with &
+Starts with & and is URI-safe Base64 encoded.
 """
 scalar BlobId
 

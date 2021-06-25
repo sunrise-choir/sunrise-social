@@ -28,9 +28,15 @@ export function SsbData(config: SsbDataConfig) {
   // const messageCache = new InMemoryLRUCache()
 
   return {
+    decodeUrlSafeId(urlSafeId: string) {
+      return urlSafeId.replace(/-/g, '+').replace(/_/g, '/')
+    },
+    encodeUrlSafeId(id: string) {
+      return id.replace(/\+/g, '-').replace(/\//g, '_')
+    },
     getCurrentFeedId() {
       const { id: feedId } = ssb.whoami()
-      return feedId
+      return this.encodeUrlSafeId(feedId)
     },
     async getPeerConnections(): Promise<Array<PeerConnection>> {
       return new Promise((resolve, reject) =>
@@ -72,7 +78,7 @@ export function SsbData(config: SsbDataConfig) {
             return {
               address,
               peer: {
-                feedId: feedId as FeedId,
+                feedId: this.encodeUrlSafeId(feedId as FeedId),
               },
               state: this.normalizePeerConnectionState(state),
               type: type || inferredType,

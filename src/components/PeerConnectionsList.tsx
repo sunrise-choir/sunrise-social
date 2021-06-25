@@ -43,8 +43,7 @@ function PeerConnectionItem(props: PeerConnectionProps) {
   const { navigate } = useRouterContext()
 
   const navigateToProfile = useCallback(() => {
-    const urlSafeFeedId = feedId.replace(/\+/g, '-').replace(/\//g, '_')
-    navigate(`/profile/${urlSafeFeedId}`)
+    navigate(`/profile/${feedId}`)
   }, [navigate, feedId])
 
   return (

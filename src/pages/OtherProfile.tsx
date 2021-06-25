@@ -12,10 +12,8 @@ function Profile() {
   if (match == null) return null
 
   const {
-    params: { feedId: urlSafeFeedId },
+    params: { feedId },
   } = match
-
-  const feedId = urlSafeFeedId.replace(/-/g, '+').replace(/_/g, '/')
 
   return (
     <PageLayout>
