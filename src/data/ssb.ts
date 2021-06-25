@@ -6,6 +6,7 @@ import {
   Address as SsbConnHubAddress,
   ConnectionData as SsbConnHubConnectionData,
 } from 'ssb-conn-hub/lib/types'
+import { fromFeedSigil, fromMultiserverAddress } from 'ssb-uri2'
 import { promisify as p } from 'util'
 
 import {
@@ -28,15 +29,9 @@ export function SsbData(config: SsbDataConfig) {
   // const messageCache = new InMemoryLRUCache()
 
   return {
-    decodeUrlSafeId(urlSafeId: string) {
-      return urlSafeId.replace(/-/g, '+').replace(/_/g, '/')
-    },
-    encodeUrlSafeId(id: string) {
-      return id.replace(/\+/g, '-').replace(/\//g, '_')
-    },
     getCurrentFeedId() {
       const { id: feedId } = ssb.whoami()
-      return this.encodeUrlSafeId(feedId)
+      return fromFeedSigil(feedId)
     },
     async getPeerConnections(): Promise<Array<PeerConnection>> {
       return new Promise((resolve, reject) =>
@@ -76,9 +71,9 @@ export function SsbData(config: SsbDataConfig) {
             const [address, connection] = ssbConnPeer
             const { key: feedId, state, type, inferredType } = connection
             return {
-              address,
+              address: fromMultiserverAddress(address),
               peer: {
-                feedId: this.encodeUrlSafeId(feedId as FeedId),
+                feedId: feedId == null ? null : fromFeedSigil(feedId),
               },
               state: this.normalizePeerConnectionState(state),
               type: type || inferredType,

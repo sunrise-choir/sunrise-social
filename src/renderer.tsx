@@ -9,7 +9,7 @@ import AppLayout from '@/components/AppLayout'
 // import PeerConnections from '@/components/PeerConnections'
 import PageRouter from '@/components/PageRouter'
 import { RouterContextProvider } from '@/context/router'
-import { initialRoute, routes } from '@/pages'
+import { initialKey, routes } from '@/pages'
 import theme from '@/theme'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -48,7 +48,7 @@ function Provider(props: ProviderProps) {
     <ApolloProvider client={client}>
       <ChakraProvider theme={theme}>
         <CSSReset />
-        <RouterContextProvider routes={routes} initialRoute={initialRoute}>
+        <RouterContextProvider routes={routes} initialKey={initialKey}>
           {children}
         </RouterContextProvider>
       </ChakraProvider>

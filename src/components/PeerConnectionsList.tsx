@@ -2,7 +2,7 @@ import { Box, VStack } from '@chakra-ui/react'
 import React, { useCallback } from 'react'
 
 import { useRouterContext } from '@/context/router'
-import { Peer, PeerConnection, useGetPeerConnectionsQuery } from '@/graphql'
+import { PeerConnection, useGetPeerConnectionsQuery } from '@/graphql'
 
 export default function PeerConnectionsList() {
   const { loading, error, data } = useGetPeerConnectionsQuery({
@@ -43,7 +43,7 @@ function PeerConnectionItem(props: PeerConnectionProps) {
   const { navigate } = useRouterContext()
 
   const navigateToProfile = useCallback(() => {
-    navigate(`/profile/${feedId}`)
+    navigate('other-profile', { feedId })
   }, [navigate, feedId])
 
   return (

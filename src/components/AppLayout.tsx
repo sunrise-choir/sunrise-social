@@ -48,11 +48,11 @@ function Header(_props: HeaderProps) {
         zIndex: '100',
       }}
     >
-      <Button onClick={() => navigate('/public')}>public</Button>
-      <Button onClick={() => navigate('/private')}>private</Button>
-      <Button onClick={() => navigate('/profile')}>profile</Button>
-      <Button onClick={() => navigate('/mentions')}>mentions</Button>
-      <Button onClick={() => navigate('/connections')}>connections</Button>
+      <Button onClick={() => navigate('public')}>public</Button>
+      <Button onClick={() => navigate('private')}>private</Button>
+      <Button onClick={() => navigate('my-profile')}>profile</Button>
+      <Button onClick={() => navigate('mentions')}>mentions</Button>
+      <Button onClick={() => navigate('connections')}>connections</Button>
     </Box>
   )
 }

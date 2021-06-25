@@ -2,36 +2,38 @@ import { Box } from '@chakra-ui/react'
 import { findIndex } from 'lodash'
 import React, { ReactElement, useEffect, useState } from 'react'
 
-import { useRouterContext } from '@/context/router'
+import { State, useRouterContext } from '@/context/router'
 
 export default Router
 
 interface RenderedView {
-  path: string
+  state: State
   element: ReactElement
 }
 
 interface RouterProps {}
 
 function Router(_props: RouterProps): ReactElement {
-  const { path, match } = useRouterContext()
+  const { state, route } = useRouterContext()
+  const { key } = state
+
+  console.log('route', route)
+  console.log('route state', state)
 
   const [views, setViews] = useState<Array<RenderedView>>([])
 
   useEffect(
     () => {
-      if (match === null) return
+      if (route == null) return
 
-      const {
-        route: { Component: RouteComponent },
-      } = match
+      const { Component: RouteComponent } = route
 
-      const newView = {
-        element: React.createElement(RouteComponent, { key: path }, null),
-        path,
+      const newView: RenderedView = {
+        element: React.createElement(RouteComponent, { key }, null),
+        state,
       }
 
-      const existingViewIndex = findIndex(views, ['path', path])
+      const existingViewIndex = findIndex(views, ['state', state])
       if (existingViewIndex === -1) {
         setViews([...views, newView])
       } else {
@@ -42,19 +44,20 @@ function Router(_props: RouterProps): ReactElement {
         ])
       }
     },
+    // don't re-effect on a change in `views`
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [path, match],
+    [state, route],
   )
 
   return (
     <>
       {views.map((view) => {
-        const isVisible = view.path === path
+        const isVisible = view.state == state
         const visClass = isVisible ? '' : ' hidden'
         return (
           <Box
             className={`view${visClass}`}
-            key={view.path}
+            key={view.state.key}
             sx={{
               bottom: 0,
               display: 'flex',
