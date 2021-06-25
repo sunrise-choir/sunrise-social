@@ -1,7 +1,9 @@
 import constate from 'constate'
 import { range } from 'lodash'
 import { Key, pathToRegexp } from 'path-to-regexp'
-import { ComponentType, useCallback, useMemo, useState } from 'react'
+import { ComponentType, useCallback, useMemo } from 'react'
+
+import useLocalStorageState from '@/hooks/useLocalStorageState'
 
 export interface Route {
   path: string
@@ -30,16 +32,20 @@ export interface RouterContextProps {
   routes: Array<Route>
 }
 
+const ROUTER_PATH_STORAGE_KEY = '@sunrise-social/router/path'
+
 function useRouter(options: RouterContextProps): RouterContext {
   const { initialRoute, routes } = options
 
-  const [path, setPath] = useState<string>(initialRoute)
+  const [path, setPath] = useLocalStorageState<string>({
+    initialState: initialRoute,
+    key: ROUTER_PATH_STORAGE_KEY,
+  })
 
   const matchers: Array<Matcher> = useMemo(() => {
     return routes.map((route) => {
       const { path } = route
       let keys: Array<Key> = []
-      console.log('path', path)
       const regexp = pathToRegexp(path, keys, {
         sensitive: true,
         start: true,
@@ -71,6 +77,7 @@ function useRouter(options: RouterContextProps): RouterContext {
 
   const navigate = useCallback(
     (nextPath) => {
+      console.log('navigate', nextPath)
       setPath(nextPath)
     },
     [setPath],
