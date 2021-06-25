@@ -1,33 +1,44 @@
-# peach-social
+# sunrise-social 🌅 🎶
 
-next-gen Scuttlebutt social networking app
+a greenfield Scuttlebutt social networking app 🌱
 
-## stack
+> if you wanna go fast, go alone. if you wanna go far, go together
 
-- typescript
-- prettier / eslint
-- ssb server
-  - [ssb-db2](https://github.com/ssb-ngi-pointer/ssb-db2)
-  -
-- ssb client
-  - [electron-ssb-client](https://github.com/staltz/electron-ssb-client)
-- nextron
-  - react
-  - webpack
-- chakra-ui
-- xstate
+the primary goal is to focus on developer happiness. 🌄
 
-## opinions
-
-- try to follow Mastodon specs if possible
-  - microformats
-  - activitypub
+nobody should work on the app alone. we either work together or nobody works.
 
 ## dev
 
+with [Node.js](https://github.com/nvm-sh/nvm) and [`yarn`](https://yarnpkg.com/) installed
+
 ```shell
-git clone git@github.com:ahdinosaur/peach-social
-cd peach-social
+git clone git@github.com:sunrise-choir/sunrise-social
+cd sunrise-social
 yarn
 yarn dev
 ```
+
+## stack
+
+a "modern" web stack:
+
+- Back-end:
+  - [ssb-db2](https://github.com/ssb-ngi-pointer/ssb-db2)
+  - [GraphQL](https://graphql.org/)
+    - [Apollo](https://www.apollographql.com/)
+- Front-end
+  - [React](https://reactjs.org/)
+  - [Chakra UI](https://chakra-ui.com/)
+  - [xstate](https://xstate.js.org/)
+- Tooling:
+  - [Electron](https://www.electronjs.org/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Prettier](https://prettier.io/)
+  - [ESLint](https://eslint.org/)
+  - [Webpack](https://webpack.js.org/)
+  - [GraphQL Code Generator](https://www.graphql-code-generator.com/)
+
+# license
+
+MPL-2.0

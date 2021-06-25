@@ -1,10 +1,10 @@
 {
   "private": true,
-  "name": "peach-social",
+  "name": "sunrise-social",
   "description": "a Scuttlebutt social networking app",
   "version": "0.0.0",
   "author": "Mikey Williams",
-  "repository": "https://github.com/ahdinosaur/peach-social",
+  "repository": "https://github.com/ahdinosaur/sunrise-social",
   "license": "MPL-2.0",
   "main": "dist/main.js",
   "scripts": {
