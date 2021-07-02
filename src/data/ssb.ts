@@ -9,6 +9,7 @@ import {
 import { ContactContent } from 'ssb-typescript'
 import {
   fromFeedSigil,
+  fromMessageSigil,
   fromMultiserverAddress,
   isFeedSSBURI,
   toFeedSigil,
@@ -19,8 +20,10 @@ import {
   Followship,
   PeerConnection,
   PeerConnectionState,
+  Post,
   Profile,
   Scalars,
+  Thread,
 } from '@/graphql'
 import { SsbServer } from '@/ssb'
 
@@ -57,6 +60,34 @@ export function SsbData(config: SsbDataConfig) {
       const profile = await ssb.db.getIndex('aboutSelf').getProfile(feedId)
       return profile
     },
+    getThreads(): Promise<Array<Thread>> {
+      return new Promise((resolve, reject) =>
+        pull(
+          ssb.threads.public({
+            allowlist: ['post'],
+          }),
+          pull.take(3),
+          pull.map(this.normalizeThread.bind(this)),
+          pull.collect((err: Error, data: Array<Thread>) => {
+            if (err) reject(err)
+            else resolve(data)
+          }),
+        ),
+      )
+    },
+    normalizeMessage(ssbMessage: any): Post | null {
+      const { key, value } = ssbMessage
+      const { content } = value
+      switch (content.type) {
+        case 'post':
+          return {
+            id: fromMessageSigil(key),
+            text: content.text,
+          }
+        default:
+          return null
+      }
+    },
     normalizePeerConnectionState(
       state: SsbConnHubConnectionData['state'],
     ): PeerConnectionState {
@@ -67,6 +98,18 @@ export function SsbData(config: SsbDataConfig) {
           return PeerConnectionState.Connected
         case 'disconnecting':
           return PeerConnectionState.Disconnecting
+      }
+    },
+    normalizeThread(ssbThread: any): Thread {
+      const { messages, full } = ssbThread
+
+      return {
+        full,
+        posts: messages
+          .filter((message: any) => {
+            return message.value.content.type === 'post'
+          })
+          .map(this.normalizeMessage.bind(this)),
       }
     },
     onPeerConnections(): any {

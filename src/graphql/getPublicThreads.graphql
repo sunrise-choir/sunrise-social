@@ -1,0 +1,9 @@
+query GetPublicThreads {
+  threads {
+    posts {
+      id
+      text
+    }
+    full
+  }
+}
