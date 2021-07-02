@@ -15,7 +15,7 @@
     "package": "electron-builder ...",
     "build:graphql-codegen": "graphql-codegen --config graphql-codegen.yml",
     "build:webpack": "webpack --config webpack/webpack.config.js",
-    "build": "yarn build:graphql-codegen && yarn:build:webpack",
+    "build": "yarn build:graphql-codegen && yarn build:webpack",
     "start": "electron .",
     "types": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint --cache .",
