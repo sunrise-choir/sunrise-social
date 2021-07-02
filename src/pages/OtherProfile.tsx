@@ -7,13 +7,14 @@ import { useRouterContext } from '@/context/router'
 export default Profile
 
 function Profile() {
-  const { match } = useRouterContext()
-
-  if (match == null) return null
+  const { state } = useRouterContext()
 
   const {
     params: { feedId },
-  } = match
+  } = state
+
+  // NOTE(mw): this is necessary to avoid an error, but i'm not sure why...
+  if (feedId == null) return null
 
   return (
     <PageLayout>

@@ -1,92 +1,66 @@
 import constate from 'constate'
-import { range } from 'lodash'
-import { Key, pathToRegexp } from 'path-to-regexp'
+import { find } from 'lodash'
 import { ComponentType, useCallback, useMemo } from 'react'
 
 import useLocalStorageState from '@/hooks/useLocalStorageState'
 
+export type RouteId = string
+
 export interface Route {
-  path: string
+  id: RouteId
   Component: ComponentType
 }
 
-export interface Matcher {
-  route: Route
-  keys: Array<Key>
-  regexp: RegExp
-}
+export type Params = Record<string, string>
 
-export interface Match {
-  route: Route
-  params: Record<string, string>
+export interface State {
+  routeId: RouteId
+  params: Params
 }
 
 export interface RouterContext {
-  path: string
-  navigate: (nextPath: string) => void
-  match: Match | null
+  state: State
+  navigate: (nextRouteId: RouteId, nextParams?: Params) => void
+  route: Route | undefined
 }
 
 export interface RouterContextProps {
-  initialRoute: string
+  initialRouteId: RouteId
   routes: Array<Route>
 }
 
-const ROUTER_PATH_STORAGE_KEY = '@sunrise-social/router/path'
+const ROUTER_STATE_STORAGE_KEY = '@sunrise-social/router/state'
 
 function useRouter(options: RouterContextProps): RouterContext {
-  const { initialRoute, routes } = options
+  const { initialRouteId, routes } = options
 
-  const [path, setPath] = useLocalStorageState<string>({
-    initialState: initialRoute,
-    key: ROUTER_PATH_STORAGE_KEY,
+  const [state, setState] = useLocalStorageState<State>({
+    initialState: {
+      params: {},
+      routeId: initialRouteId,
+    },
+    key: ROUTER_STATE_STORAGE_KEY,
   })
 
-  const matchers: Array<Matcher> = useMemo(() => {
-    return routes.map((route) => {
-      const { path } = route
-      let keys: Array<Key> = []
-      const regexp = pathToRegexp(path, keys, {
-        sensitive: true,
-        start: true,
-        strict: true,
-      })
-      return { keys, regexp, route }
-    })
-  }, [routes])
-
-  const match: Match | null = useMemo(() => {
-    for (const matcher of matchers) {
-      const { route, regexp, keys } = matcher
-      const result = regexp.exec(path)
-      if (result == null) continue
-      const params = range(keys.length).reduce(
-        (sofar: Match['params'], nextIndex) => {
-          const nextKey = keys[nextIndex]
-          const { name: nextKeyName } = nextKey
-          const nextValue = result[nextIndex + 1]
-          sofar[nextKeyName] = nextValue
-          return sofar
-        },
-        {},
-      )
-      return { params, route }
-    }
-    return null
-  }, [path, matchers])
+  const route: Route | undefined = useMemo(() => {
+    const { routeId } = state
+    return find(routes, ['id', routeId])
+  }, [state, routes])
 
   const navigate = useCallback(
-    (nextPath) => {
-      console.log('navigate', nextPath)
-      setPath(nextPath)
+    (nextRouteId, nextParams = {}) => {
+      setState({
+        params: nextParams,
+        routeId: nextRouteId,
+      })
     },
-    [setPath],
+    [setState],
   )
 
   return {
-    match,
     navigate,
-    path,
+    route,
+    state,
   }
 }
 

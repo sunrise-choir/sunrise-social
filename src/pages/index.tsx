@@ -5,31 +5,32 @@ import OtherProfile from './OtherProfile'
 import Private from './Private'
 import Public from './Public'
 
-export const initialRoute = '/public'
+export const initialRouteId = 'public'
 
 export const routes = [
   {
     Component: Public,
-    path: '/public',
+    id: 'public',
   },
   {
     Component: Private,
-    path: '/private',
+    id: 'private',
   },
   {
     Component: MyProfile,
-    path: '/profile',
+    id: 'my-profile',
   },
   {
     Component: OtherProfile,
-    path: '/profile/:feedId',
+    id: 'other-profile',
+    // params: feedId
   },
   {
     Component: Connections,
-    path: '/connections',
+    id: 'connections',
   },
   {
     Component: Mentions,
-    path: '/mentions',
+    id: 'mentions',
   },
 ]

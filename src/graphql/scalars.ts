@@ -17,3 +17,9 @@ export const MessageId = new GraphQLScalarType({
   description: 'Message Id',
   name: 'MessageId',
 })
+
+export const Address = new GraphQLScalarType({
+  ...GraphQLID,
+  description: 'Address',
+  name: 'Address',
+})

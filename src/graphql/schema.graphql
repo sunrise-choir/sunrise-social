@@ -21,19 +21,24 @@ type Query {
 }
 
 """
-Starts with @ and is URI-safe Base64 encoded.
+ssb:feed/ed25519/<FEEDID>
 """
 scalar FeedId
 
 """
-Starts with % and is URI-safe Base64 encoded.
+ssb:message/sha256/<MSGID>
 """
 scalar MessageId
 
 """
-Starts with & and is URI-safe Base64 encoded.
+ssb:blob/sha256/<BLOBID>
 """
 scalar BlobId
+
+"""
+ssb:address/multiserver?multiserverAddress=<MSADDR>
+"""
+scalar Address
 
 type Peer {
   """
@@ -58,7 +63,7 @@ enum PeerConnectionState {
 
 type PeerConnection {
   peer: Peer!
-  address: String!
+  address: Address!
 
   """
   What is the status of the connection
