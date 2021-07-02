@@ -1,5 +1,6 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type Query {
@@ -18,6 +19,10 @@ type Query {
   Get currently connected peers.
   """
   peerConnections: [PeerConnection!]!
+}
+
+type Mutation {
+  setFollowship(feedId: FeedId!, followship: Followship!): Boolean
 }
 
 """
@@ -76,4 +81,24 @@ type PeerConnection {
   It can be any string, but often is either 'lan', 'bt', 'pub', 'room', 'room-endpoint', 'dht'
   """
   type: String
+}
+
+"""
+An author's relationship with another author.
+"""
+enum Followship {
+  """
+  Blocking means an author does not want to see another's messages or replicate their feed.
+  """
+  BLOCKING
+
+  """
+  Following means an author wants to see another's messages, and replicate their feed.
+  """
+  FOLLOWING
+
+  """
+  Neutral means they have not followed or blocked an author.
+  """
+  NEUTRAL
 }

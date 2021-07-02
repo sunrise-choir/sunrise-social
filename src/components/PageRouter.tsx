@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import { findIndex, isEqual } from 'lodash'
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 import { State, useRouterContext } from '@/context/router'
 

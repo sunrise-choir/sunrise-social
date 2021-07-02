@@ -1,0 +1,3 @@
+mutation SetFollowship($feedId: FeedId!, $followship: Followship!) {
+  setFollowship(feedId: $feedId, followship: $followship)
+}

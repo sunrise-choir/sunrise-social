@@ -1,6 +1,12 @@
 import { Resolvers } from '@/graphql/Resolvers'
 
 const resolvers: Resolvers = {
+  Mutation: {
+    setFollowship(_parent, args, { data: { ssb } }, _info) {
+      const { feedId, followship } = args
+      return ssb.setFollowship({ feedId, followship })
+    },
+  },
   Peer: {
     profile(peer, _args, { data: { ssb } }, _info) {
       const { feedId } = peer

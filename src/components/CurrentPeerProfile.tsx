@@ -13,5 +13,5 @@ export default function CurrentPeerProfile() {
   const { currentPeer } = data
   const { feedId } = currentPeer
 
-  return <PeerProfile feedId={feedId} />
+  return <PeerProfile feedId={feedId} isSelf />
 }

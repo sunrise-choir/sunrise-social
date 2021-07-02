@@ -1,13 +1,16 @@
+import { VStack } from '@chakra-ui/react'
 import React from 'react'
 
+import FollowshipButton from '@/components/FollowshipButton'
 import { Peer, useGetPeerProfileQuery } from '@/graphql'
 
 interface PeerProfileProps {
   feedId: Peer['feedId']
+  isSelf?: boolean
 }
 
 export default function PeerProfile(props: PeerProfileProps) {
-  const { feedId } = props
+  const { feedId, isSelf = false } = props
 
   const { loading, error, data } = useGetPeerProfileQuery({
     variables: { feedId },
@@ -21,5 +24,10 @@ export default function PeerProfile(props: PeerProfileProps) {
 
   if (peer == null) return null
 
-  return <div>{peer.feedId}</div>
+  return (
+    <VStack>
+      <div>{peer.feedId}</div>
+      {!isSelf && <FollowshipButton feedId={feedId} />}
+    </VStack>
+  )
 }

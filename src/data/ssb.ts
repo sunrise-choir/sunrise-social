@@ -6,10 +6,17 @@ import {
   Address as SsbConnHubAddress,
   ConnectionData as SsbConnHubConnectionData,
 } from 'ssb-conn-hub/lib/types'
-import { fromFeedSigil, fromMultiserverAddress } from 'ssb-uri2'
+import { ContactContent } from 'ssb-typescript'
+import {
+  fromFeedSigil,
+  fromMultiserverAddress,
+  isFeedSSBURI,
+  toFeedSigil,
+} from 'ssb-uri2'
 import { promisify as p } from 'util'
 
 import {
+  Followship,
   PeerConnection,
   PeerConnectionState,
   Profile,
@@ -81,6 +88,44 @@ export function SsbData(config: SsbDataConfig) {
           })
         }),
       )
+    },
+    async setFollowship({
+      feedId,
+      followship,
+    }: {
+      feedId: FeedId
+      followship: Followship
+    }): Promise<boolean> {
+      if (!isFeedSSBURI(feedId)) {
+        // TODO handle with an error
+        return false
+      }
+
+      let message: ContactContent = {
+        contact: toFeedSigil(feedId) as FeedId,
+        type: 'contact',
+      }
+      switch (followship) {
+        case Followship.Neutral:
+          message.following = false
+          message.blocking = false
+          break
+        case Followship.Following:
+          message.following = true
+          message.blocking = false
+          break
+        case Followship.Blocking:
+          message.following = false
+          message.blocking = true
+          break
+      }
+
+      const published = await p(ssb.publish)(message)
+
+      console.log('published:')
+      console.log(JSON.stringify(published, null, 2))
+
+      return true
     },
   }
 }

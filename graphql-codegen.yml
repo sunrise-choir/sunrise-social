@@ -13,6 +13,7 @@ generates:
         FeedId: string
         MessageId: string
         BlobId: string
+        Address: string
   src/graphql/Resolvers.tsx:
     plugins:
       - 'typescript'
