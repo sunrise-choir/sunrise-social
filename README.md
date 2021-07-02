@@ -16,6 +16,7 @@ with [Node.js](https://github.com/nvm-sh/nvm) and [`yarn`](https://yarnpkg.com/)
 git clone git@github.com:sunrise-choir/sunrise-social
 cd sunrise-social
 yarn
+yarn build
 yarn dev
 ```
 
