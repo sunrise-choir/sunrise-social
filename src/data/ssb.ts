@@ -18,9 +18,9 @@ import { promisify as p } from 'util'
 
 import {
   Followship,
+  Message,
   PeerConnection,
   PeerConnectionState,
-  Post,
   Profile,
   Scalars,
   Thread,
@@ -60,7 +60,7 @@ export function SsbData(config: SsbDataConfig) {
       const profile = await ssb.db.getIndex('aboutSelf').getProfile(feedId)
       return profile
     },
-    getThreads(): Promise<Array<Thread>> {
+    getPublicThreads(): Promise<Array<Thread>> {
       return new Promise((resolve, reject) =>
         pull(
           ssb.threads.public({
@@ -75,14 +75,17 @@ export function SsbData(config: SsbDataConfig) {
         ),
       )
     },
-    normalizeMessage(ssbMessage: any): Post | null {
+    normalizeMessage(ssbMessage: any): Message | null {
       const { key, value } = ssbMessage
       const { content } = value
       switch (content.type) {
         case 'post':
           return {
+            content: {
+              __typename: 'Post',
+              text: content.text,
+            },
             id: fromMessageSigil(key),
-            text: content.text,
           }
         default:
           return null
@@ -105,11 +108,9 @@ export function SsbData(config: SsbDataConfig) {
 
       return {
         full,
-        posts: messages
-          .filter((message: any) => {
-            return message.value.content.type === 'post'
-          })
-          .map(this.normalizeMessage.bind(this)),
+        messages: messages
+          .map(this.normalizeMessage.bind(this))
+          .filter((message: Message | null) => message != null),
       }
     },
     onPeerConnections(): any {

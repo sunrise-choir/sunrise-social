@@ -1,8 +1,13 @@
 query GetPublicThreads {
-  threads {
-    posts {
+  threads: publicThreads {
+    messages {
       id
-      text
+      content {
+        __typename
+        ... on Post {
+          text
+        }
+      }
     }
     full
   }

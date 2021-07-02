@@ -25,8 +25,8 @@ const resolvers: Resolvers = {
     peerConnections(_parent, _args, { data: { ssb } }, _info) {
       return ssb.getPeerConnections()
     },
-    threads(_parent, _args, { data: { ssb } }, _info) {
-      return ssb.getThreads()
+    publicThreads(_parent, _args, { data: { ssb } }, _info) {
+      return ssb.getPublicThreads()
     },
   },
 }

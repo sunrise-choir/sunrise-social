@@ -1,7 +1,13 @@
-import { Box, VStack } from '@chakra-ui/react'
+import { Box, StackDivider, VStack } from '@chakra-ui/react'
 import React from 'react'
 
-import { Post, Thread, useGetPublicThreadsQuery } from '@/graphql'
+import {
+  Message,
+  Post,
+  Scalars,
+  Thread,
+  useGetPublicThreadsQuery,
+} from '@/graphql'
 
 interface PublicThreadsProps {}
 
@@ -16,7 +22,7 @@ export default function PublicThreads(_props: PublicThreadsProps) {
   const { threads } = data
 
   return (
-    <VStack>
+    <VStack divider={<StackDivider borderColor="gray.200" />} align="stretch">
       {threads.map((thread, index) => (
         <PublicThread key={index} thread={thread} />
       ))}
@@ -29,23 +35,44 @@ interface PublicThreadProps {
 }
 function PublicThread(props: PublicThreadProps) {
   const { thread } = props
-  const { posts } = thread
+  const { messages } = thread
   return (
     <Box>
-      {posts.map((post) => (
-        <PublicPost key={post.id} post={post} />
+      {messages.map((message) => (
+        <PublicMessage key={message.id} message={message} />
       ))}
     </Box>
   )
 }
 
+interface PublicMessageProps {
+  message: Message
+}
+
+function PublicMessage(props: PublicMessageProps) {
+  const { message } = props
+  const { id, content } = message
+
+  if (content == null) throw new Error('undefined content')
+
+  const { __typename } = content
+
+  switch (__typename) {
+    case 'Post':
+      return <PublicPost id={id} post={content} />
+    default:
+      return <Box>???</Box>
+  }
+}
+
 interface PublicPostProps {
+  id: Scalars['MessageId']
   post: Post
 }
 
 function PublicPost(props: PublicPostProps) {
-  const { post } = props
-  const { id, text } = post
+  const { id, post } = props
+  const { text } = post
 
   return (
     <Box>

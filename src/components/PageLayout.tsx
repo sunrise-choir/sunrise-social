@@ -20,7 +20,9 @@ function PageLayout(props: PageLayoutProps) {
         overflowY: 'auto',
       }}
     >
-      <Container className="container">{children}</Container>
+      <Container className="container" maxWidth="container.lg">
+        {children}
+      </Container>
     </Box>
   )
 }

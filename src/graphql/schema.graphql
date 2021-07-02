@@ -21,9 +21,14 @@ type Query {
   peerConnections: [PeerConnection!]!
 
   """
-  Get threads.
+  Get public threads.
   """
-  threads: [Thread!]!
+  publicThreads: [Thread!]!
+
+  """
+  Get thread.
+  """
+  thread(rootId: MessageId): Thread
 }
 
 type Mutation {
@@ -108,19 +113,25 @@ enum Followship {
   NEUTRAL
 }
 
-type Post {
+type Message {
   """
-  The globally unique identifier of this post, derived from the hash of this message.
+  The globally unique identifier of this message, derived from the hash of this message.
   """
   id: MessageId!
 
+  content: MessageContent
+}
+
+type Post {
   """
   The text body of the post.
   """
   text: String!
 }
 
+union MessageContent = Post
+
 type Thread {
-  posts: [Post!]!
+  messages: [Message!]!
   full: Boolean!
 }
